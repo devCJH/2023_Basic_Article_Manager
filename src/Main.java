@@ -6,15 +6,15 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		String cmd = sc.nextLine();
-		
-		
-		
-//		asdkl;jadlksj
-		
-		
-		
-		System.out.println("입력된 명령어 : " + cmd);
+		while(true) {
+			System.out.printf("명령어) ");
+			String cmd = sc.nextLine();
+			
+			if(cmd.equals("exit")) {
+				break;
+			}
+			
+		}
 		
 		System.out.println("== 프로그램 끝 ==");
 		
