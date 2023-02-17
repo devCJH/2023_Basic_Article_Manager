@@ -5,14 +5,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+	
+	static List<Article> articles;
+	
+	static {
+		articles = new ArrayList<>();
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
 
+		makeTestData();
+		
 		Scanner sc = new Scanner(System.in);
 
-		int lastArticleId = 0;
+		int lastArticleId = 3;
 
-		List<Article> articles = new ArrayList<>();
 		
 		while (true) {
 
@@ -81,7 +89,7 @@ public class Main {
 				System.out.printf("날짜 : %s\n", foundArticle.regDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
-				System.out.printf("조회수 : %s\n", foundArticle.viewCnt);
+				System.out.printf("조회수 : %d\n", foundArticle.viewCnt);
 				
 			} else if (cmd.startsWith("article modify ")) {
 				
@@ -149,6 +157,13 @@ public class Main {
 		sc.close();
 
 	}
+
+	private static void makeTestData() {
+		System.out.println("게시물 테스트 데이터를 생성합니다");
+		articles.add(new Article(1, Util.getDate(), "제목1", "내용1", 10));
+		articles.add(new Article(2, Util.getDate(), "제목2", "내용2", 20));
+		articles.add(new Article(3, Util.getDate(), "제목3", "내용3", 30));
+	}
 }
 
 class Article {
@@ -159,11 +174,15 @@ class Article {
 	int viewCnt;
 	
 	Article(int id, String regDate, String title, String body){
+		this(id, regDate, title, body, 0);
+	}
+	
+	Article(int id, String regDate, String title, String body, int viewCnt){
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
-		this.viewCnt = 0;
+		this.viewCnt = viewCnt;
 	}
 
 	public void addViewCnt() {
