@@ -1,6 +1,7 @@
 package com.koreaIT.java.BAM;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,16 +51,36 @@ public class App {
 
 				System.out.printf("%d번 글이 생성되었습니다\n", id);
 
-			} else if (cmd.equals("article list")) {
+			} else if (cmd.startsWith("article list")) {
 				
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다");
 					continue;
 				}
 				
+				String searchKeyword = cmd.substring("article list".length()).trim();
+				
+				List<Article> printArticles = articles;
+				
+				if(searchKeyword.length() > 0) {
+					System.out.println("검색어 : " + searchKeyword);
+					
+					printArticles = new ArrayList<>();
+					
+					for(Article article : articles) {
+						if(article.title.contains(searchKeyword)) {
+							printArticles.add(article);
+						}
+					}
+					if(printArticles.size() == 0) {
+						System.out.println("검색결과가 없습니다");
+						continue;
+					}
+				}
+				
 				System.out.println("번호	|	제목	|		날짜		|	조회");
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
+				Collections.reverse(printArticles);
+				for (Article article : printArticles) {
 					System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.viewCnt);
 				}
 				
