@@ -60,12 +60,12 @@ public class App {
 				
 				String searchKeyword = cmd.substring("article list".length()).trim();
 				
-				List<Article> printArticles = articles;
+				List<Article> printArticles = new ArrayList<>(articles);
 				
 				if(searchKeyword.length() > 0) {
 					System.out.println("검색어 : " + searchKeyword);
 					
-					printArticles = new ArrayList<>();
+					printArticles.clear();
 					
 					for(Article article : articles) {
 						if(article.title.contains(searchKeyword)) {
