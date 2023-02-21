@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import com.koreaIT.java.BAM.controller.MemberController;
 import com.koreaIT.java.BAM.dto.Article;
 import com.koreaIT.java.BAM.dto.Member;
 import com.koreaIT.java.BAM.util.Util;
@@ -24,9 +25,10 @@ public class App {
 		makeTestData();
 
 		Scanner sc = new Scanner(System.in);
+		
+		MemberController memberController = new MemberController(members, sc);
 
 		int lastArticleId = 3;
-		int lastMemberId = 0;
 
 		while (true) {
 
@@ -43,47 +45,7 @@ public class App {
 			}
 			
 			if (cmd.equals("member join")) {
-				int id = lastMemberId + 1;
-				lastMemberId = id;
-				String regDate = Util.getDate();
-				
-				String loginId = null;
-				while(true) {
-					System.out.printf("로그인 아이디 : ");
-					loginId = sc.nextLine();
-					
-					if (loginIdDupChk(loginId) == false) {
-						System.out.printf("%s은(는) 이미 사용중인 아이디입니다\n", loginId);
-						continue;
-					}
-					
-					System.out.printf("%s은(는) 사용가능한 아이디입니다\n", loginId);
-					break;
-				}
-				
-				String loginPw = null;
-				String loginPwChk = null;
-				while(true) {
-					System.out.printf("로그인 비밀번호 : ");
-					loginPw = sc.nextLine();
-					System.out.printf("로그인 비밀번호 확인 : ");
-					loginPwChk = sc.nextLine();
-					
-					if (loginPw.equals(loginPwChk) == false) {
-						System.out.println("비밀번호를 다시 입력해주세요");
-						continue;
-					}
-					break;
-				}
-				System.out.printf("이름 : ");
-				String name = sc.nextLine();
-				
-				Member member = new Member(id, regDate, loginId, loginPw, name);
-
-				members.add(member);
-
-				System.out.printf("%s회원님 환영합니다\n", loginId);
-				
+				memberController.doJoin();
 			} else if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
@@ -200,17 +162,6 @@ public class App {
 
 		sc.close();
 
-	}
-
-	private boolean loginIdDupChk(String loginId) {
-		
-		for (Member member : members) {
-			if(member.loginId.equals(loginId)) {
-				return false;
-			}
-		}
-		
-		return true;
 	}
 
 	private Article getArticleById(int id) {
