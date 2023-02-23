@@ -34,6 +34,9 @@ public class MemberController extends Controller {
 		case "logout":
 			doLogout();
 			break;
+		case "profile":
+			showProfile();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어 입니다");
 			break;
@@ -41,6 +44,12 @@ public class MemberController extends Controller {
 	}
 	
 	private void doJoin() {
+		
+		if (isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요");
+			return;
+		}
+		
 		int id = lastMemberId + 1;
 		lastMemberId = id;
 		String regDate = Util.getDate();
@@ -121,6 +130,17 @@ public class MemberController extends Controller {
 		
 		this.loginedMember = null;
 		System.out.println("로그아웃 되었습니다");
+	}
+	
+	private void showProfile() {
+		if (isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요");
+			return;
+		}
+		
+		System.out.println("== 내 정보 ==");
+		System.out.printf("로그인 아이디 : %s\n", this.loginedMember.loginId);
+		System.out.printf("이름 : %s\n", this.loginedMember.name);
 	}
 	
 	private boolean isLogined() {
