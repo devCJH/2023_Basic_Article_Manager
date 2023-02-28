@@ -12,13 +12,13 @@ import com.koreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller {
 
-	private List<Article> articles;
+//	private List<Article> articles;
 	private Scanner sc;
 	private String cmd;
 	
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
-		this.articles = Container.articleDao.articles;
+//		this.articles = Container.articleDao.articles;
 	}
 
 	@Override
@@ -63,29 +63,15 @@ public class ArticleController extends Controller {
 	}
 
 	private void showList() {
-		if (articles.size() == 0) {
-			System.out.println("게시글이 없습니다");
-			return; // -> 리턴으로 함수를 종료시키되 넘겨주는 값은 없다.
-		}
-
 		String searchKeyword = cmd.substring("article list".length()).trim();
 
-		List<Article> printArticles = new ArrayList<>(articles);
-
-		if (searchKeyword.length() > 0) {
-			System.out.println("검색어 : " + searchKeyword);
-
-			printArticles.clear();
-
-			for (Article article : articles) {
-				if (article.title.contains(searchKeyword)) {
-					printArticles.add(article);
-				}
-			}
-			if (printArticles.size() == 0) {
-				System.out.println("검색결과가 없습니다");
-				return;
-			}
+		System.out.println("검색어 : " + searchKeyword);
+		
+		List<Article> printArticles = Container.articleService.getPrintArticles(searchKeyword);
+		
+		if (printArticles.size() == 0) {
+			System.out.println("게시글이 없습니다");
+			return;
 		}
 
 		System.out.println("번호	|	제목	|		날짜		|	작성자	|	조회");
