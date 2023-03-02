@@ -12,13 +12,13 @@ import com.koreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller {
 
-//	private List<Article> articles;
+	private List<Article> articles;
 	private Scanner sc;
 	private String cmd;
 	
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
-//		this.articles = Container.articleDao.articles;
+		this.articles = Container.articleDao.articles;
 	}
 
 	@Override
@@ -75,8 +75,8 @@ public class ArticleController extends Controller {
 		}
 
 		System.out.println("번호	|	제목	|		날짜		|	작성자	|	조회");
-		Collections.reverse(printArticles);
-		for (Article article : printArticles) {
+		for (int i = printArticles.size() - 1; i >= 0; i--) {
+			Article article = printArticles.get(i);
 			
 			String writerName = null;
 			
